@@ -18,5 +18,13 @@ namespace Civilization.Models
         public int Gold { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<PlayerGamePiece> PlayerGamePieces { get; set; }
+
+        public Player()
+        {
+            Wood = 10;
+            Stone = 2;
+            Metal = 0;
+            Gold = 0;
+        }
     }
 }

@@ -25,5 +25,11 @@ namespace Civilization.Models
             base.OnModelCreating(builder);
             builder.Entity<PlayerGamePiece>().HasKey(x => new { x.PlayerId, x.GamePieceId });
         }
+
+        public virtual DbSet<Environment> Environments { get; set; }
+        public virtual DbSet<GamePiece> GamePieces { get; set; }
+        public virtual DbSet<Player> Players { get; set; }
+        public virtual DbSet<Requirement> Requirements { get; set; }
+        public virtual DbSet<PlayerGamePiece> PlayerGamePieces { get; set; }
     }
 }
