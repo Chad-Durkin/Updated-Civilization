@@ -19,27 +19,27 @@ namespace Civilization.Models
 
         public static void PopulateTable(CivilizationDbContext _db)
         {
+            Random random = new Random();
             for (var i = 0; i < 100; i++)
             {
                 BoardPiece newLand = new BoardPiece { BaseHere = false };
-                Random random = new Random();
-                var resource = random.Next(0, 20);
-                if (resource < 3)
+                var resource = random.Next(0, 100);
+                if (resource < 20)
                 {
                     newLand.ResourceHere = true;
                     newLand.ResourceType = "Wood";
                 }
-                else if (resource < 5)
+                else if (resource < 30)
                 {
                     newLand.ResourceHere = true;
                     newLand.ResourceType = "Metal";
                 }
-                else if (resource < 7)
+                else if (resource < 45)
                 {
                     newLand.ResourceHere = true;
                     newLand.ResourceType = "Stone";
                 }
-                else if (resource == 8)
+                else if (resource < 50)
                 {
                     newLand.ResourceHere = true;
                     newLand.ResourceType = "Gold";

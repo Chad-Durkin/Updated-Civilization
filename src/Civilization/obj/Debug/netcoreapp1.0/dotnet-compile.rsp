@@ -204,8 +204,8 @@
 C:\Users\epicodus\Desktop\Civilization\src\Civilization\Program.cs
 C:\Users\epicodus\Desktop\Civilization\src\Civilization\Startup.cs
 C:\Users\epicodus\Desktop\Civilization\src\Civilization\Controllers\AccountController.cs
-C:\Users\epicodus\Desktop\Civilization\src\Civilization\Migrations\20170502222726_Initial.cs
-C:\Users\epicodus\Desktop\Civilization\src\Civilization\Migrations\20170502222726_Initial.Designer.cs
+C:\Users\epicodus\Desktop\Civilization\src\Civilization\Migrations\20170502231630_Initial.cs
+C:\Users\epicodus\Desktop\Civilization\src\Civilization\Migrations\20170502231630_Initial.Designer.cs
 C:\Users\epicodus\Desktop\Civilization\src\Civilization\Migrations\CivilizationDbContextModelSnapshot.cs
 C:\Users\epicodus\Desktop\Civilization\src\Civilization\Models\BoardPiece.cs
 C:\Users\epicodus\Desktop\Civilization\src\Civilization\Models\CivilizationDbContext.cs
