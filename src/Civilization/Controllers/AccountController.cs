@@ -33,7 +33,14 @@ namespace Civilization.Controllers
                 string userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 User currentUser = await _userManager.FindByIdAsync(userId);
                 Player currentPlayer = _db.Players.Include(player => player.User).FirstOrDefault(player => player.User.UserName == currentUser.UserName);
-                return View(currentPlayer);
+
+                BoardPiece.PopulateTable(_db);
+                GameMapViewModel mapInfo = new GameMapViewModel
+                {
+                    BoardPieces = _db.BoardPieces.ToArray(),
+                    Player = currentPlayer
+                };
+                return View(mapInfo);
             }
             else
             {

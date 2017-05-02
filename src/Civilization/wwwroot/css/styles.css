@@ -26,6 +26,30 @@
 	display: table-footer-group;
 	font-weight: bold;
 }
-.divTableBody {
+.divTableBody { 
 	display: table-row-group;
+}
+
+.playerPresent {
+    background-color: red;
+}
+
+.Wood {
+    background-color: saddlebrown;
+}
+
+.Metal {
+    background-color: silver;
+}
+
+.Stone {
+    background-color: darkslategrey;
+}
+
+.Gold {
+    background-color: gold;
+}
+
+.None {
+    background-color: forestgreen;
 }

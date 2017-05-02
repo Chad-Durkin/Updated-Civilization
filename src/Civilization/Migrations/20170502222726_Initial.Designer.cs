@@ -8,14 +8,32 @@ using Civilization.Models;
 namespace Civilization.Migrations
 {
     [DbContext(typeof(CivilizationDbContext))]
-    [Migration("20170502175216_initial")]
-    partial class initial
+    [Migration("20170502222726_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Civilization.Models.BoardPiece", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("BaseHere");
+
+                    b.Property<bool>("PlayerHere");
+
+                    b.Property<bool>("ResourceHere");
+
+                    b.Property<string>("ResourceType");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BoardPieces");
+                });
 
             modelBuilder.Entity("Civilization.Models.GamePiece", b =>
                 {
@@ -39,11 +57,18 @@ namespace Civilization.Migrations
 
             modelBuilder.Entity("Civilization.Models.Player", b =>
                 {
-                    b.Property<string>("Name");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AvailableBase");
+
+                    b.Property<int>("AvailableMoves");
 
                     b.Property<int>("Gold");
 
                     b.Property<int>("Metal");
+
+                    b.Property<string>("Name");
 
                     b.Property<int>("Stone");
 
@@ -51,7 +76,7 @@ namespace Civilization.Migrations
 
                     b.Property<int>("Wood");
 
-                    b.HasKey("Name");
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
@@ -66,13 +91,11 @@ namespace Civilization.Migrations
 
                     b.Property<int?>("GamePieceId1");
 
-                    b.Property<string>("PlayerName");
-
                     b.HasKey("PlayerId", "GamePieceId");
 
                     b.HasIndex("GamePieceId1");
 
-                    b.HasIndex("PlayerName");
+                    b.HasIndex("PlayerId");
 
                     b.ToTable("PlayerGamePieces");
                 });
@@ -266,7 +289,8 @@ namespace Civilization.Migrations
 
                     b.HasOne("Civilization.Models.Player", "Player")
                         .WithMany("PlayerGamePieces")
-                        .HasForeignKey("PlayerName");
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Civilization.Models.Requirement", b =>

@@ -5,10 +5,26 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Civilization.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "BoardPieces",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BaseHere = table.Column<bool>(nullable: false),
+                    PlayerHere = table.Column<bool>(nullable: false),
+                    ResourceHere = table.Column<bool>(nullable: false),
+                    ResourceType = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BoardPieces", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "GamePieces",
                 columns: table => new
@@ -104,16 +120,20 @@ namespace Civilization.Migrations
                 name: "Players",
                 columns: table => new
                 {
-                    Name = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AvailableBase = table.Column<int>(nullable: false),
+                    AvailableMoves = table.Column<int>(nullable: false),
                     Gold = table.Column<int>(nullable: false),
                     Metal = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
                     Stone = table.Column<int>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
                     Wood = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Players", x => x.Name);
+                    table.PrimaryKey("PK_Players", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Players_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -214,8 +234,7 @@ namespace Civilization.Migrations
                 {
                     PlayerId = table.Column<int>(nullable: false),
                     GamePieceId = table.Column<int>(nullable: false),
-                    GamePieceId1 = table.Column<int>(nullable: true),
-                    PlayerName = table.Column<string>(nullable: true)
+                    GamePieceId1 = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -227,11 +246,11 @@ namespace Civilization.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_PlayerGamePieces_Players_PlayerName",
-                        column: x => x.PlayerName,
+                        name: "FK_PlayerGamePieces_Players_PlayerId",
+                        column: x => x.PlayerId,
                         principalTable: "Players",
-                        principalColumn: "Name",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -245,9 +264,9 @@ namespace Civilization.Migrations
                 column: "GamePieceId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlayerGamePieces_PlayerName",
+                name: "IX_PlayerGamePieces_PlayerId",
                 table: "PlayerGamePieces",
-                column: "PlayerName");
+                column: "PlayerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Requirements_GamePieceId",
@@ -298,6 +317,9 @@ namespace Civilization.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "BoardPieces");
+
             migrationBuilder.DropTable(
                 name: "PlayerGamePieces");
 

@@ -40,7 +40,7 @@ namespace Civilization
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Account}/{action=Index}/{id?}");
+                    template: "{controller=Account}/{action=LoginOrRegister}/{id?}");
             });
             app.Run(async (context) =>
             {

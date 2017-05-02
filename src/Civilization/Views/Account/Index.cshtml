@@ -2,133 +2,42 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model Civilization.Models.Player
+@model Civilization.ViewModels.GameMapViewModel
 
 <h1>Game Map</h1>
 
-<h2>@Model.Name</h2>
+<h2>@Model.Player.Name</h2>
 
 <div class="divTable" style="border: 1px solid #000;">
     <div class="divTableBody">
-        <div class="divTableRow">
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-        </div>
-        <div class="divTableRow">
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-        </div>
-        <div class="divTableRow">
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-        </div>
-        <div class="divTableRow">
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-        </div>
-        <div class="divTableRow">
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-        </div>
-        <div class="divTableRow">
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-        </div>
-        <div class="divTableRow">
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-        </div>
-        <div class="divTableRow">
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-        </div>
-        <div class="divTableRow">
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-        </div>
-        <div class="divTableRow">
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-            <div class="divTableCell">&nbsp;</div>
-        </div>
+        @for(var i = 0; i < 11; i++)
+        {
+            <div class="divTableRow">
+                @for(var x = 1; x < 11; x++)
+                {
+                    var chord = (i * 10) + x;
+                    @if(Model.BoardPieces[chord].ResourceType == "Stone")
+                    {
+                        <div id=@chord class="divTableCell Stone">&nbsp;</div>
+                    }
+                    else if (Model.BoardPieces[chord].ResourceType == "Wood")
+                    {
+                        <div id=@chord class="divTableCell Wood">&nbsp;</div>
+                    }
+                    else if (Model.BoardPieces[chord].ResourceType == "Metal")
+                    {
+                        <div id=@chord class="divTableCell Metal">&nbsp;</div>
+                    }
+                    else if (Model.BoardPieces[chord].ResourceType == "Gold")
+                    {
+                        <div id=@chord class="divTableCell Gold">&nbsp;</div>
+                    }
+                    else if (Model.BoardPieces[chord].ResourceType == "None")
+                    {
+                        <div id=@chord class="divTableCell None">&nbsp;</div>
+                    }
+                }
+            </div>
+        }
     </div>
 </div>

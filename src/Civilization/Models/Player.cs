@@ -11,7 +11,10 @@ namespace Civilization.Models
     public class Player
     {
         [Key]
+        public int Id { get; set; }
         public string Name { get; set; }
+        public int AvailableBase { get; set; }
+        public int AvailableMoves { get; set; }
         public int Wood { get; set; }
         public int Metal { get; set; }
         public int Stone { get; set; }
@@ -21,6 +24,8 @@ namespace Civilization.Models
 
         public Player()
         {
+            AvailableBase = 1;
+            AvailableMoves = 5;
             Wood = 10;
             Stone = 2;
             Metal = 0;
