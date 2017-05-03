@@ -62,6 +62,15 @@ namespace Civilization.Controllers
         {
             await _signInManager.SignOutAsync();
             await _db.Database.ExecuteSqlCommandAsync("TRUNCATE TABLE [BoardPieces]");
+            string userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            User currentUser = await _userManager.FindByIdAsync(userId);
+            Player currentPlayer = _db.Players.Include(player => player.User).FirstOrDefault(player => player.User.UserName == currentUser.UserName);
+            currentPlayer.Wood = 10;
+            currentPlayer.Metal = 0;
+            currentPlayer.Stone = 2;
+            currentPlayer.Gold = 0;
+            _db.Entry(currentPlayer).State = EntityState.Modified;
+            _db.SaveChanges();
             return RedirectToAction("LoginOrRegister");
         }
 
@@ -109,24 +118,26 @@ namespace Civilization.Controllers
         public async Task<IActionResult> Move(int clickedTileId)
         {
             string userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            //User currentUser = await _userManager.FindByIdAsync(userId);
-            //Player currentPlayer = _db.Players.FirstOrDefault(player => player.Name == currentUser.UserName);
+            User currentUser = await _userManager.FindByIdAsync(userId);
+            Player currentPlayer = _db.Players.FirstOrDefault(player => player.Name == currentUser.UserName);
             BoardPiece currentPiece = _db.BoardPieces.FirstOrDefault(piece => piece.PlayerHere == true);
             BoardPiece clickedPiece = _db.BoardPieces.FirstOrDefault(piece => piece.Id == clickedTileId);
             currentPiece.PlayerHere = false;
+            currentPlayer.AddResource(clickedPiece.ResourceType);
+            PlayerMoving moved = new PlayerMoving(currentPiece.Id, clickedPiece.Id, clickedPiece.ResourceType, currentPlayer.Wood, currentPlayer.Gold, currentPlayer.Metal, currentPlayer.Stone);
             //currentPiece.ResourceHere = false;
             //currentPiece.ResourceType = "None";
             clickedPiece.PlayerHere = true;
             //currentPlayer.AddResource(clickedPiece.ResourceType);
-            //clickedPiece.ResourceHere = false;
-            //clickedPiece.ResourceType = "none";
+            clickedPiece.ResourceHere = false;
+            clickedPiece.ResourceType = "None";
 
             //_db.Entry(currentPlayer).State = EntityState.Modified;
             _db.Entry(currentPiece).State = EntityState.Modified;
             _db.Entry(clickedPiece).State = EntityState.Modified;
             _db.SaveChanges();
 
-            return Content((currentPiece.Id).ToString(), "text/plain");
+            return Json(moved);
         }
 
     }

@@ -46,9 +46,13 @@ namespace Civilization.Models
             {
                 this.Gold += 1;
             }
-            else
+            else if (resourceName == "Stone")
             {
                 this.Stone += 1;
+            }
+            else
+            {
+                this.Stone += 0;
             }
         }
     }

@@ -14,19 +14,32 @@
                 var clickedId = this.id;
                 $.ajax({
                     type: 'GET',
-                    data: { clickedTileId: clickedId },
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: { clickedTileId: clickedId},
                     url: '@Url.Action("Move")',
                     success: function (result) {
-                        $("#" + clickedId).removeClass("None");
+                        console.log(result.clickedTileRes);
+                        $("#" + clickedId).removeClass(result.clickedTileRes);
                         $("#" + clickedId).addClass("playerPresent");
-                        $("#" + result).removeClass("playerPresent");
-                        $("#" + result).addClass("None");
-                        $('#' + result).html(result);
-                        //$('#newPosition').addClass("playerPresent");
+                        console.log(result.currentTileId);
+                        $("#" + result.currentTileId).removeClass("playerPresent");
+                        $("#" + result.currentTileId).addClass("None");
+                        $("#wood-hud").html("Wood: " + result.woodEq);
+                        $("#metal-hud").html("Metal: " + result.metalEq);
+                        $("#gold-hud").html("Gold: " + result.goldEq);
+                        $("#stone-hud").html("Stone: " + result.stoneEq);
+
                     }
                 });
             });
-        });
+            //$('.divTableCell').click(function () {
+            //    $.ajax({
+            //        type: 'GET',
+            //        data: ''
+            //    });
+            //});
+        });//end JQuery bracket
     </script>
 </head>
 <body>
