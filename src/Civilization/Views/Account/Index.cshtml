@@ -5,34 +5,35 @@
 @model Civilization.ViewModels.GameMapViewModel
 
 <h1>Game Map</h1>
+@Html.ActionLink("Log Out and Clear Db", "LogOutAndClearDb", "Account")
 
 @Html.Partial("Hud", @Model.Player)
 
 <div class="divTable" style="border: 1px solid #000;">
     <div class="divTableBody">
-        @for(var i = 0; i < 11; i++)
+        @for(var i = 0; i < 10; i++)
         {
             <div class="divTableRow">
                 @for(var x = 1; x < 11; x++)
                 {
                     var chord = (i * 10) + x;
-                    @if(Model.BoardPieces[chord].ResourceType == "Stone")
+                    @if(Model.BoardPieces[chord - 1].ResourceType == "Stone")
                     {
                         <div id=@chord class="divTableCell Stone">&nbsp;</div>
                     }
-                    else if (Model.BoardPieces[chord].ResourceType == "Wood")
+                    else if (Model.BoardPieces[chord - 1].ResourceType == "Wood")
                     {
                         <div id=@chord class="divTableCell Wood">&nbsp;</div>
                     }
-                    else if (Model.BoardPieces[chord].ResourceType == "Metal")
+                    else if (Model.BoardPieces[chord - 1].ResourceType == "Metal")
                     {
                         <div id=@chord class="divTableCell Metal">&nbsp;</div>
                     }
-                    else if (Model.BoardPieces[chord].ResourceType == "Gold")
+                    else if (Model.BoardPieces[chord - 1].ResourceType == "Gold")
                     {
                         <div id=@chord class="divTableCell Gold">&nbsp;</div>
                     }
-                    else if (Model.BoardPieces[chord].ResourceType == "None" && Model.BoardPieces[chord].PlayerHere == false)
+                    else if (Model.BoardPieces[chord - 1].ResourceType == "None" && Model.BoardPieces[chord - 1].PlayerHere == false)
                     {
                         <div id=@chord class="divTableCell None">&nbsp;</div>
                     }

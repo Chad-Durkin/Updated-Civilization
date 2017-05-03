@@ -20,7 +20,7 @@ namespace Civilization.Models
         public static void PopulateTable(CivilizationDbContext _db)
         {
                 Random random = new Random();
-            for (var i = 0; i < 100; i++)
+            for (var i = 1; i < 101; i++)
             {
                 BoardPiece newLand = new BoardPiece { BaseHere = false };
                 var resource = random.Next(0, 100);
@@ -53,6 +53,7 @@ namespace Civilization.Models
                 if (i == 55)
                 {
                     newLand.ResourceHere = false;
+                    newLand.ResourceType = "None";
                     newLand.PlayerHere = true;
                 }
                 else
