@@ -31,5 +31,25 @@ namespace Civilization.Models
             Metal = 0;
             Gold = 0;
         }
+
+        public void AddResource(string resourceName)
+        {
+            if (resourceName == "Wood")
+            {
+                this.Wood += 1;
+            }
+            else if (resourceName == "Metal")
+            {
+                this.Metal += 1;
+            }
+            else if (resourceName == "Gold")
+            {
+                this.Gold += 1;
+            }
+            else
+            {
+                this.Stone += 1;
+            }
+        }
     }
 }

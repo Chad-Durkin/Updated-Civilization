@@ -57,6 +57,12 @@ namespace Civilization.Controllers
         {
             return View();
         }
+            
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("LoginOrRegister");
+        }
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
@@ -98,5 +104,29 @@ namespace Civilization.Controllers
                 return View();
             }
         }
+
+        public async Task<IActionResult> Move(int clickedTileId)
+        {
+            string userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            //User currentUser = await _userManager.FindByIdAsync(userId);
+            //Player currentPlayer = _db.Players.FirstOrDefault(player => player.Name == currentUser.UserName);
+            BoardPiece currentPiece = _db.BoardPieces.FirstOrDefault(piece => piece.PlayerHere == true);
+            //BoardPiece clickedPiece = _db.BoardPieces.FirstOrDefault(piece => piece.Id == clickedTileId);
+            //currentPiece.PlayerHere = false;
+            //currentPiece.ResourceHere = false;
+            //currentPiece.ResourceType = "None";
+            //clickedPiece.PlayerHere = true;
+            //currentPlayer.AddResource(clickedPiece.ResourceType);
+            //clickedPiece.ResourceHere = false;
+            //clickedPiece.ResourceType = "none";
+
+            //_db.Entry(currentPlayer).State = EntityState.Modified;
+            //_db.Entry(currentPiece).State = EntityState.Modified;
+            //_db.Entry(clickedPiece).State = EntityState.Modified;
+            //_db.SaveChanges();
+
+            return Content((currentPiece.Id - 1).ToString(), "text/plain");
+        }
+
     }
 }
