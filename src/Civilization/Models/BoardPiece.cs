@@ -19,7 +19,7 @@ namespace Civilization.Models
 
         public static void PopulateTable(CivilizationDbContext _db)
         {
-            Random random = new Random();
+                Random random = new Random();
             for (var i = 0; i < 100; i++)
             {
                 BoardPiece newLand = new BoardPiece { BaseHere = false };
@@ -52,6 +52,7 @@ namespace Civilization.Models
                 //Set Player to starting piece
                 if (i == 55)
                 {
+                    newLand.ResourceHere = false;
                     newLand.PlayerHere = true;
                 }
                 else

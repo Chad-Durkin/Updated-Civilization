@@ -6,7 +6,7 @@
 
 <h1>Game Map</h1>
 
-<h2>@Model.Player.Name</h2>
+@Html.Partial("Hud", @Model.Player)
 
 <div class="divTable" style="border: 1px solid #000;">
     <div class="divTableBody">
@@ -32,9 +32,14 @@
                     {
                         <div id=@chord class="divTableCell Gold">&nbsp;</div>
                     }
-                    else if (Model.BoardPieces[chord].ResourceType == "None")
+                    else if (Model.BoardPieces[chord].ResourceType == "None" && Model.BoardPieces[chord].PlayerHere == false)
                     {
                         <div id=@chord class="divTableCell None">&nbsp;</div>
+                    }
+                    else
+                    {
+                        <div id=@chord class="divTableCell playerPresent">&nbsp;</div>
+
                     }
                 }
             </div>
