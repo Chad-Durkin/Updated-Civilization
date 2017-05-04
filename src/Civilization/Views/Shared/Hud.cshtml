@@ -3,11 +3,15 @@
 
 <h2>@Html.ActionLink("Logout", "Logout", "Account")</h2>
 
-<div>
+<div class="row">
+
+<div class="well col-md-3">
     <p>Name: @Model.Name</p>
     <p id="moves-hud">Moves Left: @Model.AvailableMoves</p>
     <p id="wood-hud">Wood: @Model.Wood</p>
     <p id="metal-hud">Metal: @Model.Metal</p>
     <p id="stone-hud">Stone: @Model.Stone</p>
     <p id="gold-hud">Gold: @Model.Gold</p>
+</div>
+
 </div>

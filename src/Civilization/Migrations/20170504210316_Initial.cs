@@ -95,6 +95,25 @@ namespace Civilization.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Queues",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    GamePieceId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Queues", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Queues_GamePieces_GamePieceId",
+                        column: x => x.GamePieceId,
+                        principalTable: "GamePieces",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Requirements",
                 columns: table => new
                 {
@@ -290,6 +309,11 @@ namespace Civilization.Migrations
                 column: "PlayerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Queues_GamePieceId",
+                table: "Queues",
+                column: "GamePieceId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Requirements_GamePieceId",
                 table: "Requirements",
                 column: "GamePieceId");
@@ -348,6 +372,9 @@ namespace Civilization.Migrations
 
             migrationBuilder.DropTable(
                 name: "PlayerGamePieces");
+
+            migrationBuilder.DropTable(
+                name: "Queues");
 
             migrationBuilder.DropTable(
                 name: "Requirements");

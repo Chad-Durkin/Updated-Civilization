@@ -8,7 +8,7 @@ using Civilization.Models;
 namespace Civilization.Migrations
 {
     [DbContext(typeof(CivilizationDbContext))]
-    [Migration("20170504180622_Initial")]
+    [Migration("20170504210316_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -98,6 +98,20 @@ namespace Civilization.Migrations
                     b.HasIndex("PlayerId");
 
                     b.ToTable("PlayerGamePieces");
+                });
+
+            modelBuilder.Entity("Civilization.Models.Queue", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("GamePieceId");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("GamePieceId");
+
+                    b.ToTable("Queues");
                 });
 
             modelBuilder.Entity("Civilization.Models.Requirement", b =>
@@ -309,6 +323,13 @@ namespace Civilization.Migrations
                         .WithMany("PlayerGamePieces")
                         .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Civilization.Models.Queue", b =>
+                {
+                    b.HasOne("Civilization.Models.GamePiece", "GamePiece")
+                        .WithMany()
+                        .HasForeignKey("GamePieceId");
                 });
 
             modelBuilder.Entity("Civilization.Models.Requirement", b =>

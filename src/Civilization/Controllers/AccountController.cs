@@ -177,5 +177,13 @@ namespace Civilization.Controllers
             _db.SaveChanges();
             return Content(5.ToString(), "text/plain");
         }
+
+        public IActionResult ShowQueCounter(int id)
+        {
+            Player player = _db.Players.FirstOrDefault(targ => targ.Id == id);
+            GamePiece choseFire = _db.GamePieces.FirstOrDefault(gp => gp.Id == 1);
+            GamePieceMod queEquipUtility = new GamePieceMod(choseFire.Name, choseFire.Type, choseFire.TurnCost);
+            return Json(queEquipUtility);
+        }
     }
 }

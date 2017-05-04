@@ -22,11 +22,8 @@
                 url: '@Url.Action("EndTurn")',
                 success: function (result) {
                     $("#moves-hud").html("Moves Left: " + result);
-                
                 }
-            
             });
-        
         });
     $('.playerAdvancement').click(function () {
         $('#ShowDisplay').toggle();
@@ -53,18 +50,35 @@
              success: function (result) {
                  var resultString = '<ul>';
                  for (var i = 0; i < result.gamePieces.length; i++) {
-                     resultString += '<li>'+ result.gamePieces[i].type + ' - ' + result.gamePieces[i].name + ' - <button type="class" class="addToQueue" id="' + result.gamePieces[i].id + '">Add To Queue</button></li>';
-      
+                     resultString += '<li>'+ result.gamePieces[i].type + ' - ' + result.gamePieces[i].name + ' - <button type="button" class="addToQueue" id="' + result.gamePieces[i].id + '">Add To Queue</button></li>';
                  }
                      resultString += '</ul>';
                      $('#ShowAll').html(resultString);
+        $('.addToQueue').click(function () {
+            $('#QueueMod').toggle();
+            console.log("addToQueue class clicked");
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                data: { id: @Model.Player.Id },
+                contentType: 'appliction/json',
+                url: '@Url.Action("ShowQueCounter")',
+                success: function (result) {
+                    var resultString = '<div class="well queCounter">'; 
+                        resultString += '<h3>Tech Equipped: ' + result.gpName + '</h3><h3>Type of Tech: ' + result.gpType + '</h3><h3>Turns to Utilize: ' + result.gpTurnCost + '</h3>';
+                    resultString += '</div>';
+                    $('#QueueMod').html(resultString);
+                }
+            });
+        });
              }
              });
      });
- });
+ });// Ending JQuery Bracket
 </script>
 <div id="ShowDisplay"></div>    
-<div id="ShowAll"></div>      
+<div id="ShowAll"></div>  
+<div id="QueueMod"></div> 
 <div class="divTable" style="border: 1px solid #000;">
     <div class="divTableBody">
         @for (var i = 0; i < 10; i++)
