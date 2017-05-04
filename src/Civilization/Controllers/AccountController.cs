@@ -193,8 +193,8 @@ namespace Civilization.Controllers
             _db.Queues.Add(queuePiece);
             _db.SaveChanges();
             Queue[] QueueList = _db.Queues.ToArray();
-            QueueModel display = new QueueModel(QueueList, _db);
-            return Json(display);
+            //QueueModel display = new QueueModel(QueueList, _db);
+            return Json(QueueList);
         }
     }
 }

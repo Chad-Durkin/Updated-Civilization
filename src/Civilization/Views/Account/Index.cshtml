@@ -81,10 +81,16 @@
              contentType: 'application/json',
              url: '@Url.Action("AddToQueue")',
              success: function (result) {
-                 var resultString = '<ul>';
-                 $.each(result, function(index, gamePiece) {
-                     resultString += '<li> Name: ' + gamePiece.Name + ' Turns Till Done: ' + gamePiece.TurnCost + '</li>';  
-                 });
+                 
+                 var resultString = '<h2>QUEUE</h2><ul>';
+                 for(var i = 0; i < result.length; i++)
+                 {
+                     resultString += '<li> Name: ' + result[i].gamePiece.name + ' Turns Till Done: ' + result[i].gamePiece.turnCost + '</li>';
+                     
+                 }
+                 //$.each(result, function(index, gamePiece) {
+                 //    resultString += '<li> Name: ' + gamePiece.name + ' Turns Till Done: ' + gamePiece.turnCost + '</li>';  
+                 //});
                  resultString += '</ul>';
                  $('#ShowQueue').html(resultString);
              }
