@@ -15,5 +15,19 @@ namespace Civilization.Models
         public int id { get; set; }
         public virtual GamePiece GamePiece { get; set; }
 
+
+        public static bool CheckForGamePiece(GamePiece gamePiece, CivilizationDbContext db)
+        {
+            Queue[] QueueList = db.Queues.ToArray();
+            for (var i = 0; i < QueueList.Length; i++)
+            {
+                if (QueueList[i].GamePiece.Id == gamePiece.Id)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }

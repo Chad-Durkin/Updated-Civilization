@@ -77,7 +77,7 @@
          $.ajax({
              type: 'GET',
              dataType: 'json',
-             data: { id: gameId },
+             data: { id: gameId, playerId: @Model.Player.Id },
              contentType: 'application/json',
              url: '@Url.Action("AddToQueue")',
              success: function (result) {

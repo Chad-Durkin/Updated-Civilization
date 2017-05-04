@@ -186,12 +186,20 @@ namespace Civilization.Controllers
             return Json(queEquipUtility);
         }
 
-        public IActionResult AddToQueue(int id)
+        public IActionResult AddToQueue(int id, int playerId)
         {
             GamePiece gamePiece = _db.GamePieces.FirstOrDefault(model => model.Id == id);
-            Queue queuePiece = new Queue { GamePiece = gamePiece };
-            _db.Queues.Add(queuePiece);
-            _db.SaveChanges();
+            Player player = _db.Players.FirstOrDefault(model => model.Id == playerId);
+            if(Queue.CheckForGamePiece(gamePiece, _db))
+            {
+                Resource[] checkResources = Resource.RetrieveGamePieceResources(gamePiece, _db);
+                if(Resource.RemoveResourcesFromPlayer(checkResources, player, _db))
+                {
+                    Queue queuePiece = new Queue { GamePiece = gamePiece };
+                    _db.Queues.Add(queuePiece);
+                    _db.SaveChanges();
+                }
+            }
             Queue[] QueueList = _db.Queues.ToArray();
             //QueueModel display = new QueueModel(QueueList, _db);
             return Json(QueueList);
