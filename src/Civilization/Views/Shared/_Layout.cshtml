@@ -19,16 +19,19 @@
                     data: { clickedTileId: clickedId},
                     url: '@Url.Action("Move")',
                     success: function (result) {
-                        console.log(result.clickedTileRes);
-                        $("#" + clickedId).removeClass(result.clickedTileRes);
-                        $("#" + clickedId).addClass("playerPresent");
-                        console.log(result.currentTileId);
-                        $("#" + result.currentTileId).removeClass("playerPresent");
-                        $("#" + result.currentTileId).addClass("None");
-                        $("#wood-hud").html("Wood: " + result.woodEq);
-                        $("#metal-hud").html("Metal: " + result.metalEq);
-                        $("#gold-hud").html("Gold: " + result.goldEq);
-                        $("#stone-hud").html("Stone: " + result.stoneEq);
+                        if (result.legalMove)
+                        {
+                            console.log(result.clickedTileRes);
+                            $("#" + clickedId).removeClass(result.clickedTileRes);
+                            $("#" + clickedId).addClass("playerPresent");
+                            console.log(result.currentTileId);
+                            $("#" + result.currentTileId).removeClass("playerPresent");
+                            $("#" + result.currentTileId).addClass("None");
+                            $("#wood-hud").html("Wood: " + result.woodEq);
+                            $("#metal-hud").html("Metal: " + result.metalEq);
+                            $("#gold-hud").html("Gold: " + result.goldEq);
+                            $("#stone-hud").html("Stone: " + result.stoneEq);
+                        }
 
                     }
                 });

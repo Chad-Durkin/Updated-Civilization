@@ -122,22 +122,32 @@ namespace Civilization.Controllers
             Player currentPlayer = _db.Players.FirstOrDefault(player => player.Name == currentUser.UserName);
             BoardPiece currentPiece = _db.BoardPieces.FirstOrDefault(piece => piece.PlayerHere == true);
             BoardPiece clickedPiece = _db.BoardPieces.FirstOrDefault(piece => piece.Id == clickedTileId);
-            currentPiece.PlayerHere = false;
-            currentPlayer.AddResource(clickedPiece.ResourceType);
-            PlayerMoving moved = new PlayerMoving(currentPiece.Id, clickedPiece.Id, clickedPiece.ResourceType, currentPlayer.Wood, currentPlayer.Gold, currentPlayer.Metal, currentPlayer.Stone);
-            //currentPiece.ResourceHere = false;
-            //currentPiece.ResourceType = "None";
-            clickedPiece.PlayerHere = true;
-            //currentPlayer.AddResource(clickedPiece.ResourceType);
-            clickedPiece.ResourceHere = false;
-            clickedPiece.ResourceType = "None";
+            PlayerMoving firstMove = new PlayerMoving(0, 0, null, 0, 0, 0, 0, false);
+            if(currentPlayer.AvailableMoves > 0)
+            {
+                currentPlayer.AvailableMoves -= 1;
+                if (currentPiece.Id == (clickedPiece.Id + 1) || currentPiece.Id == (clickedPiece.Id - 1) || currentPiece.Id == (clickedPiece.Id + 10) || currentPiece.Id == (clickedPiece.Id - 10))
+                {
+                currentPiece.PlayerHere = false;
+                currentPlayer.AddResource(clickedPiece.ResourceType);
+                PlayerMoving successMove = new PlayerMoving(currentPiece.Id, clickedPiece.Id, clickedPiece.ResourceType, currentPlayer.Wood, currentPlayer.Gold, currentPlayer.Metal, currentPlayer.Stone, true);
+                    firstMove = successMove;
+                //currentPiece.ResourceHere = false;
+                //currentPiece.ResourceType = "None";
+                clickedPiece.PlayerHere = true;
+                //currentPlayer.AddResource(clickedPiece.ResourceType);
+                clickedPiece.ResourceHere = false;
+                clickedPiece.ResourceType = "None";
 
-            //_db.Entry(currentPlayer).State = EntityState.Modified;
-            _db.Entry(currentPiece).State = EntityState.Modified;
-            _db.Entry(clickedPiece).State = EntityState.Modified;
-            _db.SaveChanges();
+                //_db.Entry(currentPlayer).State = EntityState.Modified;
+                _db.Entry(currentPiece).State = EntityState.Modified;
+                _db.Entry(clickedPiece).State = EntityState.Modified;
+                _db.SaveChanges();
 
-            return Json(moved);
+                }
+            }
+
+            return Json(firstMove);
         }
 
     }

@@ -14,9 +14,10 @@ namespace Civilization.ViewModels
         public int StoneEq { get; set; }
         public int MetalEq { get; set; }
         public int GoldEq { get; set; }
+        public bool LegalMove { get; set; }
 
 
-        public PlayerMoving(int currentTileId, int clickedTileId, string clickedTileRes, int woodEq, int goldEq, int metalEq, int stoneEq)
+        public PlayerMoving(int currentTileId, int clickedTileId, string clickedTileRes, int woodEq, int goldEq, int metalEq, int stoneEq, bool legalMove)
         {
             CurrentTileId = currentTileId;
             ClickedTileId = clickedTileId;
@@ -25,6 +26,7 @@ namespace Civilization.ViewModels
             GoldEq = goldEq;
             MetalEq = metalEq;
             StoneEq = stoneEq;
+            LegalMove = legalMove;
         }
 
     }
