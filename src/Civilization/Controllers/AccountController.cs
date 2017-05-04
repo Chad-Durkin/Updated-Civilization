@@ -185,5 +185,16 @@ namespace Civilization.Controllers
             GamePieceMod queEquipUtility = new GamePieceMod(choseFire.Name, choseFire.Type, choseFire.TurnCost);
             return Json(queEquipUtility);
         }
+
+        public IActionResult AddToQueue(int id)
+        {
+            GamePiece gamePiece = _db.GamePieces.FirstOrDefault(model => model.Id == id);
+            Queue queuePiece = new Queue { GamePiece = gamePiece };
+            _db.Queues.Add(queuePiece);
+            _db.SaveChanges();
+            Queue[] QueueList = _db.Queues.ToArray();
+            QueueModel display = new QueueModel(QueueList, _db);
+            return Json(display);
+        }
     }
 }
