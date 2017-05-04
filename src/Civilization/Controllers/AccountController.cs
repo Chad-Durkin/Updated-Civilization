@@ -122,7 +122,7 @@ namespace Civilization.Controllers
             Player currentPlayer = _db.Players.FirstOrDefault(player => player.Name == currentUser.UserName);
             BoardPiece currentPiece = _db.BoardPieces.FirstOrDefault(piece => piece.PlayerHere == true);
             BoardPiece clickedPiece = _db.BoardPieces.FirstOrDefault(piece => piece.Id == clickedTileId);
-            PlayerMoving firstMove = new PlayerMoving(0, 0, null, 0, 0, 0, 0, false);
+            PlayerMoving firstMove = new PlayerMoving(0, 0, null, 0, 0, 0, 0, 0, false);
             if(currentPlayer.AvailableMoves > 0)
             {
                 currentPlayer.AvailableMoves -= 1;
@@ -130,7 +130,7 @@ namespace Civilization.Controllers
                 {
                 currentPiece.PlayerHere = false;
                 currentPlayer.AddResource(clickedPiece.ResourceType);
-                PlayerMoving successMove = new PlayerMoving(currentPiece.Id, clickedPiece.Id, clickedPiece.ResourceType, currentPlayer.Wood, currentPlayer.Gold, currentPlayer.Metal, currentPlayer.Stone, true);
+                PlayerMoving successMove = new PlayerMoving(currentPiece.Id, clickedPiece.Id, clickedPiece.ResourceType, currentPlayer.Wood, currentPlayer.Gold, currentPlayer.Metal, currentPlayer.Stone, currentPlayer.AvailableMoves, true);
                     firstMove = successMove;
                 //currentPiece.ResourceHere = false;
                 //currentPiece.ResourceType = "None";
