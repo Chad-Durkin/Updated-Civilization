@@ -30,6 +30,7 @@ namespace Civilization.Models
         public virtual DbSet<GamePiece> GamePieces { get; set; }
         public virtual DbSet<Player> Players { get; set; }
         public virtual DbSet<Requirement> Requirements { get; set; }
+        public virtual DbSet<Resource> Resources { get; set; }
         public virtual DbSet<PlayerGamePiece> PlayerGamePieces { get; set; }
     }
 }

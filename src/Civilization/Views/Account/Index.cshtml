@@ -8,16 +8,72 @@
 @Html.ActionLink("Log Out and Clear Db", "LogOutAndClearDb", "Account")
 
 @Html.Partial("Hud", @Model.Player)
-
+<div class="btnArea">
+    <button type="button" class="playerAdvancement">@Model.Player.Name's Advancements</button>
+    <button type="button" class="allAdvancement">Advancement List</button>
+    <button type="button" class="endTurn">End Turn</button>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.endTurn').click(function(){
+            $.ajax({
+                type: 'GET',
+                data: { id: @Model.Player.Id },
+                url: '@Url.Action("EndTurn")',
+                success: function (result) {
+                    $("#moves-hud").html("Moves Left: " + result);
+                
+                }
+            
+            });
+        
+        });
+    $('.playerAdvancement').click(function () {
+        $('#ShowDisplay').toggle();
+        $.ajax({
+            type: 'GET',
+            data: {id: @Model.Player.Id},
+            dataType: 'json',
+            contentType: 'application/json',
+            url: '@Url.Action("AdvancementDisplay")',
+            success: function (result) {
+            var resultString = '<p><strong>' + result.name + 's Resources:</strong> Gold: ' + result.gold + ' | Wood: ' + result.wood + ' | Stone: ' + result.stone + ' | Metal: ' + result.metal + '</p><p><strong>' + result.name + 's  Bases:</strong> Established: ' + result.basesOwned + ' | Available: ' + result.availableBase;
+                $('#ShowDisplay').html(resultString);
+                }
+            });
+    });
+     $('.allAdvancement').click(function () {
+         $('#ShowAll').toggle();
+         $.ajax({
+             type: 'GET',
+             dataType: 'json',
+             data: {id: @Model.Player.Id},
+             contentType: 'application.json',
+             url: '@Url.Action("AllAdvancement")',
+             success: function (result) {
+                 var resultString = '<ul>';
+                 for (var i = 0; i < result.gamePieces.length; i++) {
+                     resultString += '<li>'+ result.gamePieces[i].type + ' - ' + result.gamePieces[i].name + ' - <button type="class" class="addToQueue" id="' + result.gamePieces[i].id + '">Add To Queue</button></li>';
+      
+                 }
+                     resultString += '</ul>';
+                     $('#ShowAll').html(resultString);
+             }
+             });
+     });
+ });
+</script>
+<div id="ShowDisplay"></div>    
+<div id="ShowAll"></div>      
 <div class="divTable" style="border: 1px solid #000;">
     <div class="divTableBody">
-        @for(var i = 0; i < 10; i++)
+        @for (var i = 0; i < 10; i++)
         {
             <div class="divTableRow">
-                @for(var x = 1; x < 11; x++)
+                @for (var x = 1; x < 11; x++)
                 {
                     var chord = (i * 10) + x;
-                    @if(Model.BoardPieces[chord - 1].ResourceType == "Stone")
+                    @if (Model.BoardPieces[chord - 1].ResourceType == "Stone")
                     {
                         <div id=@chord class="divTableCell Stone">&nbsp;</div>
                     }

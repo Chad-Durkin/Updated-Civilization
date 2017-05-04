@@ -8,7 +8,7 @@ using Civilization.Models;
 namespace Civilization.Migrations
 {
     [DbContext(typeof(CivilizationDbContext))]
-    [Migration("20170502231630_Initial")]
+    [Migration("20170504180622_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,13 +40,11 @@ namespace Civilization.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Cost");
-
                     b.Property<int>("Count");
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("Resource");
+                    b.Property<int>("TurnCost");
 
                     b.Property<string>("Type");
 
@@ -63,6 +61,8 @@ namespace Civilization.Migrations
                     b.Property<int>("AvailableBase");
 
                     b.Property<int>("AvailableMoves");
+
+                    b.Property<int>("BasesOwned");
 
                     b.Property<int>("Gold");
 
@@ -116,6 +116,24 @@ namespace Civilization.Migrations
                     b.HasIndex("GamePieceId");
 
                     b.ToTable("Requirements");
+                });
+
+            modelBuilder.Entity("Civilization.Models.Resource", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Cost");
+
+                    b.Property<int?>("GamePieceId");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GamePieceId");
+
+                    b.ToTable("Resources");
                 });
 
             modelBuilder.Entity("Civilization.Models.User", b =>
@@ -297,6 +315,13 @@ namespace Civilization.Migrations
                 {
                     b.HasOne("Civilization.Models.GamePiece", "GamePiece")
                         .WithMany("Requirements")
+                        .HasForeignKey("GamePieceId");
+                });
+
+            modelBuilder.Entity("Civilization.Models.Resource", b =>
+                {
+                    b.HasOne("Civilization.Models.GamePiece", "GamePiece")
+                        .WithMany("Resources")
                         .HasForeignKey("GamePieceId");
                 });
 

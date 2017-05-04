@@ -33,8 +33,8 @@ namespace Civilization.Controllers
                 string userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 User currentUser = await _userManager.FindByIdAsync(userId);
                 Player currentPlayer = _db.Players.Include(player => player.User).FirstOrDefault(player => player.User.UserName == currentUser.UserName);
-
                 BoardPiece.PopulateTable(_db);
+                GamePiece.PopulateTech(_db);
                 GameMapViewModel mapInfo = new GameMapViewModel
                 {
                     BoardPieces = _db.BoardPieces.ToArray(),
@@ -65,6 +65,7 @@ namespace Civilization.Controllers
             string userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             User currentUser = await _userManager.FindByIdAsync(userId);
             Player currentPlayer = _db.Players.Include(player => player.User).FirstOrDefault(player => player.User.UserName == currentUser.UserName);
+            currentPlayer.AvailableMoves = 5;
             currentPlayer.Wood = 10;
             currentPlayer.Metal = 0;
             currentPlayer.Stone = 2;
@@ -150,5 +151,31 @@ namespace Civilization.Controllers
             return Json(firstMove);
         }
 
+        public IActionResult AdvancementDisplay(int id)
+        {
+            //Player passedInPlayer = player;
+            //var passedId = id;
+            Player player = _db.Players.FirstOrDefault(targ => targ.Id == id);
+            //PlayerGamePiece[] GamePieces = _db.PlayerGamePieces.Where(checkPlayer => checkPlayer.PlayerId == player.Id).ToArray();
+            //AdvancementDisplay display = new AdvancementDisplay(GamePieces, player.Name, player.Wood, player.Metal, player.Stone, player.Gold, player);
+            return Json(player);
+        }
+        public IActionResult AllAdvancement(int id)
+        {
+            Player player = _db.Players.FirstOrDefault(targ => targ.Id == id);
+            Resource[] Resources = _db.Resources.ToArray();
+            GamePiece[] GamePieces = _db.GamePieces.ToArray();
+            AdvancementDisplay display = new AdvancementDisplay(GamePieces, Resources, player);
+            return Json(display);
+        }
+
+        public IActionResult EndTurn(int id)
+        {
+            Player player = _db.Players.FirstOrDefault(targ => targ.Id == id);
+            player.AvailableMoves = 5;
+            _db.Entry(player).State = EntityState.Modified;
+            _db.SaveChanges();
+            return Content(5.ToString(), "text/plain");
+        }
     }
 }

@@ -31,10 +31,9 @@ namespace Civilization.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Cost = table.Column<int>(nullable: false),
                     Count = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    Resource = table.Column<string>(nullable: true),
+                    TurnCost = table.Column<int>(nullable: false),
                     Type = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -117,6 +116,27 @@ namespace Civilization.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Resources",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Cost = table.Column<int>(nullable: false),
+                    GamePieceId = table.Column<int>(nullable: true),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Resources", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Resources_GamePieces_GamePieceId",
+                        column: x => x.GamePieceId,
+                        principalTable: "GamePieces",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Players",
                 columns: table => new
                 {
@@ -124,6 +144,7 @@ namespace Civilization.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AvailableBase = table.Column<int>(nullable: false),
                     AvailableMoves = table.Column<int>(nullable: false),
+                    BasesOwned = table.Column<int>(nullable: false),
                     Gold = table.Column<int>(nullable: false),
                     Metal = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
@@ -274,6 +295,11 @@ namespace Civilization.Migrations
                 column: "GamePieceId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Resources_GamePieceId",
+                table: "Resources",
+                column: "GamePieceId");
+
+            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
@@ -325,6 +351,9 @@ namespace Civilization.Migrations
 
             migrationBuilder.DropTable(
                 name: "Requirements");
+
+            migrationBuilder.DropTable(
+                name: "Resources");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
